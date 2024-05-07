@@ -1,6 +1,6 @@
 # Weather App
 
-Brief description of your project.
+
 
 ## Features
 
