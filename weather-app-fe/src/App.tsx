@@ -14,19 +14,19 @@ function App() {
     try {
       setLoading(true);
       const response = await fetchWeather(city);
-      console.log("dddd",response)
-      if(response?.status === 500){
-        console.log("error")
-        toast.error("Something went wrong!")
+      if (response?.response?.status === 500) {
+        toast.error("Something went wrong!");
+      } else {
+        setWeatherData(response);
       }
-      setWeatherData(response);
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      toast.error("Something went wrong!")
+      toast.error("Something went wrong!");
       console.error("Error fetching weather data:", error);
     }
   };
+  
   const temperatureInFahrenheit = weatherData?.main?.temp;
   const temperatureInCelsius = ((temperatureInFahrenheit - 32) * 5) / 9;
   return (
@@ -61,7 +61,7 @@ function App() {
             {loading ? "Searching..." : "Search"}
           </button>
         </div>
-        {weatherData && (
+        {weatherData.base  && (
           <>
             <div className="flex justify-center items-center gap-6 my-5">
               {temperatureInCelsius?.toFixed(0) < 20 ? (
@@ -80,10 +80,10 @@ function App() {
             <h5>
               {weatherData?.name}, {weatherData?.sys?.country}
             </h5>
-            <h5>{new Date(weatherData?.dt * 1000).toLocaleDateString()}</h5>
+            <h5>{new Date(weatherData?.dt * 1000)?.toLocaleDateString()}</h5>
             <h5 className="mb-4">
               Feels like {weatherData?.main?.feels_like} | Sunset{" "}
-              {new Date(weatherData?.sys?.sunset * 1000).toLocaleTimeString()}
+              {new Date(weatherData?.sys?.sunset * 1000)?.toLocaleTimeString()}
             </h5>
           </>
         )}
@@ -125,7 +125,7 @@ function App() {
 
         <div className="my-4 w-4/5">
           <h2 className="text-start font-medium text-white">Random Text</h2>
-          <p className="text-wrap text-white text-sm leading-relaxed">
+          <p className="text-wrap text-white text-sm md:text-lg leading-relaxed">
             Text ever since the 1500s, when an unknown printer took a galley of
             type and scrambled it to make a type specimen book. It has survived
             not only five centuries, but also the leap into electronic
@@ -133,7 +133,7 @@ function App() {
           </p>
         </div>
       </div>
-      <Toaster position="right-bottom"  />
+      <Toaster position="right-bottom" />
     </div>
   );
 }
